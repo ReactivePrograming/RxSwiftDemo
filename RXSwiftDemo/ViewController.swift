@@ -17,6 +17,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var humidityLabel: UILabel!
     @IBOutlet weak var cityNameLabel: UILabel!
     @IBOutlet weak var weatherLabel: UILabel!
+
+    let bag = DisposeBag()
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.aztec
@@ -29,7 +31,11 @@ class ViewController: UIViewController {
                 self.weatherLabel.text = data.icon
                 self.humidityLabel.text = "\(data.humidity)%"
                 self.cityNameLabel.text = data.cityName
-            })
+            }).disposed(by: bag)
+    }
+
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
 
     private func setUpUI() {

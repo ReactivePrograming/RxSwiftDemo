@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		57DD8C5422C4FAA000C16AE6 /* Appearence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57DD8C5322C4FAA000C16AE6 /* Appearence.swift */; };
 		57DD8C5722C5074300C16AE6 /* ApiController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57DD8C5622C5074300C16AE6 /* ApiController.swift */; };
+		57DD8C5922C5126200C16AE6 /* weather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 57DD8C5822C5126200C16AE6 /* weather.ttf */; };
 		57FFDD2522A80ACB00A339DD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57FFDD2422A80ACB00A339DD /* AppDelegate.swift */; };
 		57FFDD2722A80ACB00A339DD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57FFDD2622A80ACB00A339DD /* ViewController.swift */; };
 		57FFDD2A22A80ACB00A339DD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 57FFDD2822A80ACB00A339DD /* Main.storyboard */; };
@@ -42,6 +43,7 @@
 /* Begin PBXFileReference section */
 		57DD8C5322C4FAA000C16AE6 /* Appearence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Appearence.swift; sourceTree = "<group>"; };
 		57DD8C5622C5074300C16AE6 /* ApiController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiController.swift; sourceTree = "<group>"; };
+		57DD8C5822C5126200C16AE6 /* weather.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = weather.ttf; sourceTree = "<group>"; };
 		57FFDD2122A80ACB00A339DD /* RXSwiftDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RXSwiftDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57FFDD2422A80ACB00A339DD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		57FFDD2622A80ACB00A339DD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 		57DD8C5522C5072700C16AE6 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				57DD8C5822C5126200C16AE6 /* weather.ttf */,
 				57DD8C5622C5074300C16AE6 /* ApiController.swift */,
 			);
 			path = Controllers;
@@ -288,6 +291,7 @@
 				57FFDD3222A80ACD00A339DD /* LaunchScreen.storyboard in Resources */,
 				57FFDD2F22A80ACD00A339DD /* Assets.xcassets in Resources */,
 				57FFDD2A22A80ACB00A339DD /* Main.storyboard in Resources */,
+				57DD8C5922C5126200C16AE6 /* weather.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
