@@ -12,26 +12,33 @@ import RxSwift
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var searchCityName: UITextField!
+    @IBOutlet weak var tempLabel: UILabel!
+    @IBOutlet weak var humidityLabel: UILabel!
+    @IBOutlet weak var cityNameLabel: UILabel!
+    @IBOutlet weak var weatherLabel: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.aztec
         setUpUI()
+        //使用mock data
+        ApiController.shareInstance.currentWeather(city: "RxSwift")
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { (data) in
+                self.tempLabel.text = "\(data.temperature)° C"
+                self.weatherLabel.text = data.icon
+                self.humidityLabel.text = "\(data.humidity)%"
+                self.cityNameLabel.text = data.cityName
+            })
     }
 
-    func setUpUI() {
-        let fibs: [Int] = [1, 2, 3, 4]
-        var squared: [Int] = []
-        for fib in fibs {
-            squared.append(fib * fib)
-        }
-
-//        fibs.sqc.map
-
-        print(squared)
-
-        let squares = fibs.map { (fib) -> Int in
-            fib * fib
-        }
+    private func setUpUI() {
+        Appearence.applyBottomLine(to: searchCityName)
+        searchCityName.textColor = UIColor.ufoGreen
+        tempLabel.textColor = UIColor.cream
+        humidityLabel.textColor = UIColor.cream
+        weatherLabel.textColor = UIColor.cream
+        cityNameLabel.textColor = UIColor.cream
     }
 
 }

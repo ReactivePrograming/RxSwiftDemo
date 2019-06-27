@@ -113,6 +113,38 @@
             endingLineNumber = "22"
             landmarkName = "subscribe(_:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(extension in RxSwift):RxSwift.ObservableType.subscribe((RxSwift.Event&lt;A.E&gt;) -&gt; ()) -&gt; RxSwift.Disposable"
+                  moduleName = "RXSwiftDemo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/havi/Desktop/My-Resources/%E6%BA%90%E7%A0%81/RXSwiftDemo/Pods/RxSwift/RxSwift/ObservableType+Extensions.swift"
+                  timestampString = "583340342.753386"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "22"
+                  endingLineNumber = "22"
+                  offsetFromSymbolStart = "103">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (RxSwift.Event&lt;A.E&gt;) -&gt; () in (extension in RxSwift):RxSwift.ObservableType.subscribe((RxSwift.Event&lt;A.E&gt;) -&gt; ()) -&gt; RxSwift.Disposable"
+                  moduleName = "RXSwiftDemo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/havi/Desktop/My-Resources/%E6%BA%90%E7%A0%81/RXSwiftDemo/Pods/RxSwift/RxSwift/ObservableType+Extensions.swift"
+                  timestampString = "583340342.755877"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "23"
+                  endingLineNumber = "23"
+                  offsetFromSymbolStart = "83">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -170,7 +202,7 @@
                   moduleName = "RXSwiftDemo"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/havi/Desktop/My-Resources/%E6%BA%90%E7%A0%81/RXSwiftDemo/Pods/RxSwift/RxSwift/Observables/Producer.swift"
-                  timestampString = "583075331.8417439"
+                  timestampString = "583340342.771917"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "24"
@@ -185,7 +217,7 @@
                   moduleName = "RXSwiftDemo"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/havi/Desktop/My-Resources/%E6%BA%90%E7%A0%81/RXSwiftDemo/Pods/RxSwift/RxSwift/Observables/Producer.swift"
-                  timestampString = "583075331.845037"
+                  timestampString = "583340342.774569"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "14"
@@ -586,7 +618,7 @@
                   moduleName = "RXSwiftDemo"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/havi/Desktop/My-Resources/%E6%BA%90%E7%A0%81/RXSwiftDemo/Pods/RxSwift/RxSwift/Schedulers/RecursiveScheduler.swift"
-                  timestampString = "583075332.002968"
+                  timestampString = "583340342.8772089"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "169"
@@ -601,7 +633,7 @@
                   moduleName = "RXSwiftDemo"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/havi/Desktop/My-Resources/%E6%BA%90%E7%A0%81/RXSwiftDemo/Pods/RxSwift/RxSwift/Schedulers/RecursiveScheduler.swift"
-                  timestampString = "583075332.008229"
+                  timestampString = "583340342.879854"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "167"
@@ -672,22 +704,6 @@
             startingLineNumber = "32"
             endingLineNumber = "32"
             landmarkName = "dispose()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Pods/RxSwift/RxSwift/Observable.swift"
-            timestampString = "581591508.137368"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "27"
-            endingLineNumber = "27"
-            landmarkName = "asObservable()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -778,7 +794,7 @@
                   moduleName = "RXSwiftDemo"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/havi/Desktop/My-Resources/%E6%BA%90%E7%A0%81/RXSwiftDemo/Pods/RxSwift/Platform/DataStructures/Queue.swift"
-                  timestampString = "583075332.087727"
+                  timestampString = "583340342.926192"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "135"
@@ -793,7 +809,7 @@
                   moduleName = "RXSwiftDemo"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/havi/Desktop/My-Resources/%E6%BA%90%E7%A0%81/RXSwiftDemo/Pods/RxSwift/Platform/DataStructures/Queue.swift"
-                  timestampString = "583075332.092744"
+                  timestampString = "583340342.928589"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "133"

@@ -72,6 +72,13 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="cityNameLabel" destination="fOr-3o-Fei" id="phi-EH-AJy"/>
+                        <outlet property="humidityLabel" destination="pC0-lb-pOC" id="CO6-HY-7u4"/>
+                        <outlet property="searchCityName" destination="5XW-Zn-pPF" id="f6L-2B-QiB"/>
+                        <outlet property="tempLabel" destination="2vz-lg-JKr" id="diz-jl-iXM"/>
+                        <outlet property="weatherLabel" destination="kJP-fb-kPn" id="nLt-eq-yQC"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
