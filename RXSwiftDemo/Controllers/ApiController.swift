@@ -9,21 +9,22 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import SwiftyJSON
 
 class ApiController {
 
     struct Weather {
         let cityName: String
-        let temperature: Int
-        let humidity: Int
+        let temperature: String
+        let humidity: String
         let icon: String
 
-        static let empty = Weather(cityName: "unknown", temperature: -3000, humidity: 0, icon: "e")
+        static let empty = Weather(cityName: "unknown", temperature: "-3000", humidity: "0", icon: "e")
     }
 
     static let shareInstance = ApiController()
-    private let apiKey = "12b2817fbec86915a6e9b4dbbd3d9039"
-    let baseURL = URL(string: "http://api.openweathermap.org/data/2.5")!
+    private let apiKey = "3f778bc5604a44c0b851d4b5f3eb5652"
+    let baseURL = URL(string: "https://free-api.heweather.net/s6/weather/")!
 
     init() {
         Logging.URLRequests = { request in
@@ -34,11 +35,43 @@ class ApiController {
     //MARK:return current weathrer
 
     func currentWeather(city: String) -> Observable<Weather> {
+        /*
         return Observable.just(Weather(cityName: city, temperature: 20, humidity: 91, icon: iconNameToChar(icon: "01d")))
+        */
+        return buildRequest(pathComponent: "now", params: [("location", city)])
+            .map({ json in
+                let result = json["HeWeather6"]
+                let basic = result[0]["basic"]
+                let now = result[0]["now"]
+                print("--------\(result)\n-------\(basic)")
+                return Weather(cityName: basic["location"].string ?? "Unknown", temperature: now["tmp"].string ?? "-1000", humidity: now["hum"].string ?? "0", icon: now["cond_txt"].string ?? "e")
+            })
     }
 
     //net work request
-
+    func buildRequest(method: String = "GET", pathComponent: String, params: [(String, String)]) -> Observable<JSON> {
+        let url = baseURL.appendingPathComponent(pathComponent)
+        var request = URLRequest(url: url)
+        let keyQueryItem = URLQueryItem(name: "key", value: apiKey)
+        let urlComponents = NSURLComponents(url: url, resolvingAgainstBaseURL: true)
+        if method == "GET" {
+            var queryItems = params.map { URLQueryItem(name: $0.0, value: $0.1)}
+            queryItems.append(keyQueryItem)
+            urlComponents?.queryItems = queryItems
+        } else {
+            urlComponents?.queryItems = [keyQueryItem]
+            let jsonData = try! JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
+            request.httpBody = jsonData
+        }
+        request.url = urlComponents?.url
+        request.httpMethod = method
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        let session = URLSession.shared
+        return session.rx.data(request: request).map({
+            try! JSON(data: $0)
+        })
+        
+    }
     
 
 }

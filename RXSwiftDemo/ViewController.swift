@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Foundation
 import RxCocoa
 import RxSwift
 
@@ -32,6 +33,24 @@ class ViewController: UIViewController {
                 self.humidityLabel.text = "\(data.humidity)%"
                 self.cityNameLabel.text = data.cityName
             }).disposed(by: bag)
+        //use rxcocoa to observer the textview value
+        /*
+         这里searchCityName即是observe也是observer
+        */
+        self.searchCityName.rx.text
+            .filter { ($0 ?? "").characters.count > 0 }
+            .flatMap { text in
+                return ApiController.shareInstance.currentWeather(city: text ?? "Error")
+                .catchErrorJustReturn(ApiController.Weather.empty)
+            }
+        .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { (data) in
+                self.tempLabel.text = "\(data.temperature)° C"
+                self.weatherLabel.text = data.icon
+                self.humidityLabel.text = "\(data.humidity)%"
+                self.cityNameLabel.text = data.cityName
+            })
+        .disposed(by: bag)
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
