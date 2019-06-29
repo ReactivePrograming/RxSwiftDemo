@@ -20,89 +20,92 @@ class ViewController: UIViewController {
     @IBOutlet weak var weatherLabel: UILabel!
     @IBOutlet weak var switchOn: UISwitch!
     
+    @IBOutlet weak var mapButton: UIButton!
+    @IBOutlet weak var placeButton: UIButton!
+    @IBOutlet weak var indicatorView: UIActivityIndicatorView!
     let bag = DisposeBag()
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.aztec
         setUpUI()
-        //使用mock data
-        //MARK:- 第一步：调试通API
         /*
-        ApiController.shareInstance.currentWeather(city: "RxSwift")
-            .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { (data) in
-                self.tempLabel.text = "\(data.temperature)° C"
-                self.weatherLabel.text = data.icon
-                self.humidityLabel.text = "\(data.humidity)%"
-                self.cityNameLabel.text = data.cityName
-            }).disposed(by: bag)
-        //use rxcocoa to observer the textview value
+         let textSearch = searchCityName.rx.controlEvent(.editingDidEndOnExit).asObservable()
+         let tempertature = switchOn.rx.controlEvent(.valueChanged).asObservable()
+         let search = Observable.from([textSearch, tempertature])
+         .merge()
+         .map({ self.searchCityName.text })
+         .filter { ($0 ?? "").characters.count > 0 }
+         .flatMap { text in
+         return ApiController.shareInstance.currentWeather(city: text ?? "Beijing")
+         .catchErrorJustReturn(ApiController.Weather.empty)
+         }
+         .asDriver(onErrorJustReturn: ApiController.Weather.empty)
+         
+         search.map { result -> String in
+         if self.switchOn.isOn {
+         return "\(Int(Double(result.temperature)!*1.8+32))° F"
+         } else {
+         return "\(result.temperature)° C"
+         }
+         }
+         .drive(tempLabel.rx.text)
+         .disposed(by: bag)
+         
+         search.map { $0.icon }
+         .drive(weatherLabel.rx.text)
+         .disposed(by: bag)
+         
+         search.map { $0.cityName }
+         .drive(cityNameLabel.rx.text)
+         .disposed(by: bag)
+         
+         search.map { $0.humidity }
+         .drive(humidityLabel.rx.text)
+         .disposed(by: bag)
+         
         */
-        //MARK: - 第二步，使用RX，监听textfile的值的变化，然后通过请求网络展示天气
-        /*
- 
-        self.searchCityName.rx.text
+        //MARK:- 第一步：增加UIActivityIndicatorView
+        //这个是search input Observable
+        let searchInput = searchCityName.rx.controlEvent(.editingDidEndOnExit).asObservable()
+            .map { self.searchCityName.text }
             .filter { ($0 ?? "").characters.count > 0 }
-            .flatMapLatest { text in
-                return ApiController.shareInstance.currentWeather(city: text ?? "Error")
-                .catchErrorJustReturn(ApiController.Weather.empty)
-            }
-            .share(replay: 1)
-            .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { (data) in
-                self.tempLabel.text = "\(data.temperature)° C"
-                self.weatherLabel.text = data.icon
-                self.humidityLabel.text = "\(data.humidity)%"
-                self.cityNameLabel.text = data.cityName
-            })
-            .disposed(by: bag)
-         */
-        //MARK:- 第三步：使用数据bind
-        //这里面首先使用textfiled的value是observable的
-        /*
-        let search = searchCityName.rx.text
-            .filter { ($0 ?? "").characters.count > 0 }
-            .flatMapLatest { text in
-                return ApiController.shareInstance.currentWeather(city: text ?? "Beijing")
-                    .catchErrorJustReturn(ApiController.Weather.empty)
-            }
-            .share(replay: 1)
-            .observeOn(MainScheduler.instance)
-        //search是网络请求的observable，下面使用bind将producer绑定到Receiver上
-        search.map { "\($0.temperature)°C"}
-            .bind(to: tempLabel.rx.text)
-            .disposed(by: bag)
-        search.map { "\($0.icon)" }
-            .bind(to: weatherLabel.rx.text)
-            .disposed(by: bag)
-        search.map { "\($0.humidity)" }
-            .bind(to: humidityLabel.rx.text)
-            .disposed(by: bag)
-        search.map { "\($0.cityName)" }
-            .bind(to: cityNameLabel.rx.text)
-            .disposed(by: bag)
-        */
-        //MARK:- 第四步：使用Traits And Driver
-        //这里还使用了Controlproperty 和 ControlEvent
-        let textSearch = searchCityName.rx.controlEvent(.editingDidEndOnExit).asObservable()
-        let tempertature = switchOn.rx.controlEvent(.valueChanged).asObservable()
-        let search = Observable.from([textSearch, tempertature])
-            .merge()
-            .map({ self.searchCityName.text })
-            .filter { ($0 ?? "").characters.count > 0 }
-            .flatMap { text in
-                return ApiController.shareInstance.currentWeather(city: text ?? "Beijing")
-                    .catchErrorJustReturn(ApiController.Weather.empty)
-            }
-            .asDriver(onErrorJustReturn: ApiController.Weather.empty)
+        let search = searchInput.flatMap { text in
+            return ApiController.shareInstance.currentWeather(city: text ?? "北京")
+                .catchErrorJustReturn(ApiController.Weather.dummy)
+        }.asDriver(onErrorJustReturn: ApiController.Weather.dummy)
         
-        search.map { result -> String in
-                if self.switchOn.isOn {
-                    return "\(Int(Double(result.temperature)!*1.8+32))° F"
-                } else {
-                    return "\(result.temperature)° C"
-                }
-            }
+        let running = Observable.from([
+            searchInput.map{ _ in true },
+            search.map({ _ in
+                false
+            }).asObservable()
+            ])
+            .merge()
+            .startWith(true)
+            .asDriver(onErrorJustReturn: false)
+        
+        running
+            .skip(1)
+            .drive(self.indicatorView.rx.isAnimating)
+            .disposed(by: bag)
+        
+        running
+            .drive(tempLabel.rx.isHidden)
+            .disposed(by: bag)
+        
+        running
+            .drive(weatherLabel.rx.isHidden)
+            .disposed(by: bag)
+        
+        running
+            .drive(humidityLabel.rx.isHidden)
+            .disposed(by: bag)
+        
+        running
+            .drive(cityNameLabel.rx.isHidden)
+            .disposed(by: bag)
+        
+        search.map { "\($0.temperature)° C" }
             .drive(tempLabel.rx.text)
             .disposed(by: bag)
         
@@ -110,15 +113,13 @@ class ViewController: UIViewController {
             .drive(weatherLabel.rx.text)
             .disposed(by: bag)
         
-        search.map { $0.cityName }
-            .drive(cityNameLabel.rx.text)
-            .disposed(by: bag)
-        
-        search.map { $0.humidity }
+        search.map { "\($0.humidity)%" }
             .drive(humidityLabel.rx.text)
             .disposed(by: bag)
         
-        
+        search.map { $0.cityName }
+            .drive(cityNameLabel.rx.text)
+            .disposed(by: bag)
 
     }
 

@@ -54,6 +54,21 @@
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q4s-8x-2f8">
                                 <rect key="frame" x="163" y="616" width="51" height="31"/>
                             </switch>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="O8C-6s-bUS">
+                                <rect key="frame" x="162.5" y="318.5" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="D38-uX-7zd"/>
+                                    <constraint firstAttribute="height" constant="50" id="sbg-EF-KYY"/>
+                                </constraints>
+                            </activityIndicatorView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xua-Fb-j5C">
+                                <rect key="frame" x="30" y="615.5" width="24" height="32"/>
+                                <state key="normal" image="place"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fJr-S1-d5X">
+                                <rect key="frame" x="299" y="616" width="46" height="31"/>
+                                <state key="normal" image="map"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -62,16 +77,24 @@
                             <constraint firstItem="kJP-fb-kPn" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="2Sa-zK-PEJ"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="5XW-Zn-pPF" secondAttribute="trailing" constant="15" id="AIi-PN-wPR"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="pC0-lb-pOC" secondAttribute="trailing" constant="30" id="E3m-qP-aIJ"/>
+                            <constraint firstItem="fJr-S1-d5X" firstAttribute="centerY" secondItem="Q4s-8x-2f8" secondAttribute="centerY" id="E52-8c-lql"/>
+                            <constraint firstItem="O8C-6s-bUS" firstAttribute="centerX" secondItem="kJP-fb-kPn" secondAttribute="centerX" id="MsK-Pf-t5U"/>
                             <constraint firstItem="kJP-fb-kPn" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" id="PpB-Je-Ng0"/>
+                            <constraint firstItem="Q4s-8x-2f8" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="xua-Fb-j5C" secondAttribute="trailing" constant="8" symbolic="YES" id="QBD-zh-JWV"/>
+                            <constraint firstItem="fJr-S1-d5X" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="pC0-lb-pOC" secondAttribute="trailing" id="Qo8-oY-zMh"/>
                             <constraint firstItem="Q4s-8x-2f8" firstAttribute="top" secondItem="fOr-3o-Fei" secondAttribute="bottom" constant="29" id="Rz6-d6-KSj"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="fOr-3o-Fei" secondAttribute="bottom" constant="80" id="UjS-p1-IUL"/>
                             <constraint firstItem="5XW-Zn-pPF" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="15" id="V8r-ay-VUG"/>
                             <constraint firstItem="2vz-lg-JKr" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="VMo-Xx-ldD"/>
                             <constraint firstItem="kJP-fb-kPn" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="bjU-VZ-VWa"/>
                             <constraint firstItem="pC0-lb-pOC" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="2vz-lg-JKr" secondAttribute="trailing" constant="8" symbolic="YES" id="dsP-4v-8om"/>
+                            <constraint firstItem="xua-Fb-j5C" firstAttribute="centerY" secondItem="Q4s-8x-2f8" secondAttribute="centerY" id="fHo-f7-llP"/>
                             <constraint firstItem="Q4s-8x-2f8" firstAttribute="centerX" secondItem="kJP-fb-kPn" secondAttribute="centerX" id="i4t-C3-Kc4"/>
+                            <constraint firstItem="xua-Fb-j5C" firstAttribute="leading" secondItem="2vz-lg-JKr" secondAttribute="leading" id="iqN-Ue-rT7"/>
                             <constraint firstItem="fOr-3o-Fei" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="jNl-ab-i6P"/>
+                            <constraint firstItem="O8C-6s-bUS" firstAttribute="centerY" secondItem="kJP-fb-kPn" secondAttribute="centerY" id="l1g-n5-XEg"/>
                             <constraint firstItem="2vz-lg-JKr" firstAttribute="top" secondItem="5XW-Zn-pPF" secondAttribute="bottom" constant="20" id="oLJ-me-VcF"/>
+                            <constraint firstItem="fJr-S1-d5X" firstAttribute="leading" secondItem="Q4s-8x-2f8" secondAttribute="trailing" constant="87" id="xTI-CR-Mgg"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="kJP-fb-kPn" secondAttribute="trailing" id="yIg-qT-8B5"/>
                             <constraint firstItem="pC0-lb-pOC" firstAttribute="top" secondItem="5XW-Zn-pPF" secondAttribute="bottom" constant="20" id="ybu-Vl-wUj"/>
                         </constraints>
@@ -80,6 +103,9 @@
                     <connections>
                         <outlet property="cityNameLabel" destination="fOr-3o-Fei" id="phi-EH-AJy"/>
                         <outlet property="humidityLabel" destination="pC0-lb-pOC" id="CO6-HY-7u4"/>
+                        <outlet property="indicatorView" destination="O8C-6s-bUS" id="tHU-gG-HR3"/>
+                        <outlet property="mapButton" destination="fJr-S1-d5X" id="Won-su-OCs"/>
+                        <outlet property="placeButton" destination="xua-Fb-j5C" id="bkd-L0-lOs"/>
                         <outlet property="searchCityName" destination="5XW-Zn-pPF" id="f6L-2B-QiB"/>
                         <outlet property="switchOn" destination="Q4s-8x-2f8" id="FGS-ZX-7CO"/>
                         <outlet property="tempLabel" destination="2vz-lg-JKr" id="diz-jl-iXM"/>
@@ -91,4 +117,8 @@
             <point key="canvasLocation" x="136.80000000000001" y="89.505247376311857"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="map" width="32" height="31"/>
+        <image name="place" width="24" height="32"/>
+    </resources>
 </document>

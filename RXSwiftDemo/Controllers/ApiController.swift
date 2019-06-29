@@ -18,8 +18,17 @@ class ApiController {
         let temperature: String
         let humidity: String
         let icon: String
+        let lat: Double
+        let lon: Double
 
-        static let empty = Weather(cityName: "unknown", temperature: "-3000", humidity: "0", icon: "e")
+        static let empty = Weather(
+                    cityName: "unknown",
+                    temperature: "-3000",
+                    humidity: "0",
+                    icon: "e",
+                    lat: 0,
+                    lon: 0)
+        static let dummy = Weather(cityName: "RxCity", temperature: "20", humidity: "90", icon: "不错", lat: 0, lon: 0)
     }
 
     static let shareInstance = ApiController()
@@ -44,7 +53,7 @@ class ApiController {
                 let basic = result[0]["basic"]
                 let now = result[0]["now"]
                 print("--------\(result)\n-------\(basic)")
-                return Weather(cityName: basic["location"].string ?? "Unknown", temperature: now["tmp"].string ?? "-1000", humidity: now["hum"].string ?? "0", icon: now["cond_txt"].string ?? "e")
+                return Weather(cityName: basic["location"].string ?? "Unknown", temperature: now["tmp"].string ?? "-1000", humidity: now["hum"].string ?? "0", icon: now["cond_txt"].string ?? "e", lat: basic["lat"].double ?? 0,lon: basic["lon"].double ?? 0)
             })
     }
 

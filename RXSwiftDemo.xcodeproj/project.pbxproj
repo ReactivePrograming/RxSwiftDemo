@@ -20,6 +20,7 @@
 		57FFDD4822A80ACD00A339DD /* RXSwiftDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57FFDD4722A80ACD00A339DD /* RXSwiftDemoUITests.swift */; };
 		57FFDD5A22B29B0000A339DD /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57FFDD5922B29B0000A339DD /* Colors.swift */; };
 		57FFDD5C22C1063A00A339DD /* Extension+Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57FFDD5B22C1063A00A339DD /* Extension+Array.swift */; };
+		5C39446022C62DEE003BF494 /* CLLocationManager+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C39445F22C62DEE003BF494 /* CLLocationManager+Rx.swift */; };
 		AE0D617EE5FAAD2543F076C2 /* libPods-RXSwiftDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AEE3C8E0DEF03A76058EF91B /* libPods-RXSwiftDemo.a */; };
 /* End PBXBuildFile section */
 
@@ -60,6 +61,7 @@
 		57FFDD4922A80ACD00A339DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		57FFDD5922B29B0000A339DD /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		57FFDD5B22C1063A00A339DD /* Extension+Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Array.swift"; sourceTree = "<group>"; };
+		5C39445F22C62DEE003BF494 /* CLLocationManager+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationManager+Rx.swift"; sourceTree = "<group>"; };
 		6253839DFD6EC8A8C92A34AB /* Pods-RXSwiftDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RXSwiftDemo.release.xcconfig"; path = "Target Support Files/Pods-RXSwiftDemo/Pods-RXSwiftDemo.release.xcconfig"; sourceTree = "<group>"; };
 		6BCC757221BC1DA97B190A85 /* Pods-RXSwiftDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RXSwiftDemo.debug.xcconfig"; path = "Target Support Files/Pods-RXSwiftDemo/Pods-RXSwiftDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		AEE3C8E0DEF03A76058EF91B /* libPods-RXSwiftDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RXSwiftDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -105,6 +107,7 @@
 			children = (
 				57DD8C5822C5126200C16AE6 /* weather.ttf */,
 				57DD8C5622C5074300C16AE6 /* ApiController.swift */,
+				5C39445F22C62DEE003BF494 /* CLLocationManager+Rx.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -346,6 +349,7 @@
 				57DD8C5722C5074300C16AE6 /* ApiController.swift in Sources */,
 				57FFDD2D22A80ACB00A339DD /* RXSwiftDemo.xcdatamodeld in Sources */,
 				57DD8C5422C4FAA000C16AE6 /* Appearence.swift in Sources */,
+				5C39446022C62DEE003BF494 /* CLLocationManager+Rx.swift in Sources */,
 				57FFDD2522A80ACB00A339DD /* AppDelegate.swift in Sources */,
 				57FFDD5C22C1063A00A339DD /* Extension+Array.swift in Sources */,
 			);
