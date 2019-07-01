@@ -24,6 +24,8 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We&apos;d like to fetch your location to show you the local weather forecast.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>weather.ttf</string>

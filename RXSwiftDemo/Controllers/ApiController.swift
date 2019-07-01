@@ -56,6 +56,17 @@ class ApiController {
                 return Weather(cityName: basic["location"].string ?? "Unknown", temperature: now["tmp"].string ?? "-1000", humidity: now["hum"].string ?? "0", icon: now["cond_txt"].string ?? "e", lat: basic["lat"].double ?? 0,lon: basic["lon"].double ?? 0)
             })
     }
+    
+    func currentWeather(lat: Double, lon: Double) -> Observable<Weather> {
+        return buildRequest(pathComponent: "now", params: [("location", "\(lat),\(lon)")])
+            .map({ json in
+                let result = json["HeWeather6"]
+                let basic = result[0]["basic"]
+                let now = result[0]["now"]
+                print("--------\(result)\n-------\(basic)")
+                return Weather(cityName: basic["location"].string ?? "Unknown", temperature: now["tmp"].string ?? "-1000", humidity: now["hum"].string ?? "0", icon: now["cond_txt"].string ?? "e", lat: basic["lat"].double ?? 0,lon: basic["lon"].double ?? 0)
+            })
+    }
 
     //net work request
     func buildRequest(method: String = "GET", pathComponent: String, params: [(String, String)]) -> Observable<JSON> {

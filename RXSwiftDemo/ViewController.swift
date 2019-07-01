@@ -10,6 +10,7 @@ import UIKit
 import Foundation
 import RxCocoa
 import RxSwift
+import CoreLocation
 
 class ViewController: UIViewController {
 
@@ -23,7 +24,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var mapButton: UIButton!
     @IBOutlet weak var placeButton: UIButton!
     @IBOutlet weak var indicatorView: UIActivityIndicatorView!
+    
     let bag = DisposeBag()
+    let locationManager = CLLocationManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.aztec
@@ -66,19 +70,63 @@ class ViewController: UIViewController {
         */
         //MARK:- 第一步：增加UIActivityIndicatorView
         //这个是search input Observable
+        
+//        switchOn.rx.controlEvent(.valueChanged).asObservable().subscribe { (event) in
+//            let alert = UIAlertController(title: "ce", message: "dd", preferredStyle: .alert)
+//            let action = UIAlertAction.init(title: "确认", style: .default) { (alert) in
+//                UIApplication.shared.open(URL(string: "https://testflight.apple.com/join/ua0oicPc")!, options: [:], completionHandler: nil)
+//            }
+//            alert.addAction(action)
+//            self.present(alert, animated: false, completion: nil)
+//        }
+        
+        //首先获取用户授权
+        let geoInput = placeButton.rx.tap.asObservable()
+            .do(onNext: {
+                self.locationManager.requestWhenInUseAuthorization()
+                self.locationManager.startUpdatingLocation()
+            })
+        
+        let currentLocation = locationManager.rx.didUpdateLocations
+            .map { locations in
+                return locations[0]
+            }
+            .filter { (location) -> Bool in
+                return location.horizontalAccuracy < kCLLocationAccuracyHundredMeters
+            }
+        
+        let geoLocation = geoInput.flatMap {
+            return currentLocation.take(1)
+        }
+        
+        let geoSearch = geoLocation.flatMap { location in
+            return ApiController.shareInstance.currentWeather(lat: location.coordinate.latitude, lon: location.coordinate.longitude)
+                .catchErrorJustReturn(ApiController.Weather.dummy)
+        }
+        
+        //测试定位成功
+//        let updateLocation = locationManager.rx.didUpdateLocations.subscribe { (locations) in
+//            print(locations)
+//        }
+//        .disposed(by: bag)
+        
+        
         let searchInput = searchCityName.rx.controlEvent(.editingDidEndOnExit).asObservable()
             .map { self.searchCityName.text }
             .filter { ($0 ?? "").characters.count > 0 }
-        let search = searchInput.flatMap { text in
+        let textSearch = searchInput.flatMap { text in
             return ApiController.shareInstance.currentWeather(city: text ?? "北京")
                 .catchErrorJustReturn(ApiController.Weather.dummy)
-        }.asDriver(onErrorJustReturn: ApiController.Weather.dummy)
+        }
+        let search = Observable.from([geoSearch, textSearch])
+            .merge()
+            .asDriver(onErrorJustReturn: ApiController.Weather.dummy)
         
         let running = Observable.from([
             searchInput.map{ _ in true },
-            search.map({ _ in
-                false
-            }).asObservable()
+            geoInput.map({ _ in true }),
+            search.map({ _ in false })
+                .asObservable()
             ])
             .merge()
             .startWith(true)
@@ -122,6 +170,18 @@ class ViewController: UIViewController {
             .disposed(by: bag)
 
     }
+    
+//    override func viewDidAppear(_ animated: Bool) {
+//        super.viewDidAppear(animated)
+//        DispatchQueue.main.asyncAfter(wallDeadline: .now() + 5) {
+//            let alert = UIAlertController(title: "ce", message: "dd", preferredStyle: .alert)
+//            let action = UIAlertAction.init(title: "确认", style: .default) { (alert) in
+//                UIApplication.shared.open(URL(string: "https://testflight.apple.com/join/ua0oicPc")!, options: [:], completionHandler: nil)
+//            }
+//            alert.addAction(action)
+//            self.present(alert, animated: false, completion: nil)
+//        }
+//    }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
