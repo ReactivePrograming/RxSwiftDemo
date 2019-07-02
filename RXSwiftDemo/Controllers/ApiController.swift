@@ -10,6 +10,8 @@ import Foundation
 import RxSwift
 import RxCocoa
 import SwiftyJSON
+import CoreLocation
+import MapKit
 
 class ApiController {
 
@@ -29,6 +31,53 @@ class ApiController {
                     lat: 0,
                     lon: 0)
         static let dummy = Weather(cityName: "RxCity", temperature: "20", humidity: "90", icon: "不错", lat: 0, lon: 0)
+        
+        var coordinate: CLLocationCoordinate2D {
+            return CLLocationCoordinate2D(latitude: lat, longitude: lon)
+        }
+        
+        func overlay() -> Overlay {
+            let coordinates: [CLLocationCoordinate2D] = [
+                CLLocationCoordinate2D(latitude: lat - 0.25, longitude: lon - 0.25),
+                CLLocationCoordinate2D(latitude: lat + 0.25, longitude: lon + 0.25)
+                ]
+            let points = coordinates.map { MKMapPoint($0) }
+            let rects = points.map { MKMapRect(origin: $0, size: MKMapSize(width: 0, height: 0))}
+            let fittingRect = rects.reduce(MKMapRect.null) { (result, mapRect) -> MKMapRect in
+                return result.union(mapRect)
+            }
+            return Overlay(icon: icon, coordinate: coordinate, boundingMapRect: fittingRect)
+        }
+        
+        public class Overlay: NSObject, MKOverlay {
+            var coordinate: CLLocationCoordinate2D
+            var boundingMapRect: MKMapRect
+            let icon: String
+            
+            init(icon: String, coordinate: CLLocationCoordinate2D, boundingMapRect: MKMapRect) {
+                self.coordinate = coordinate
+                self.boundingMapRect = boundingMapRect
+                self.icon = icon
+            }
+        }
+        
+        public class OverlayView: MKOverlayRenderer {
+            var overlayIcon: String
+            init(overlay: MKOverlay, overlayIcon: String) {
+                self.overlayIcon = overlayIcon
+                super.init(overlay: overlay)
+            }
+            
+            public override func draw(_ mapRect: MKMapRect, zoomScale: MKZoomScale, in context: CGContext) {
+                let imageReference = imageFromText(text: overlayIcon as NSString, font: UIFont.systemFont(ofSize: 32)).cgImage
+                let theMapRect = overlay.boundingMapRect
+                let theRect = rect(for: theMapRect)
+                context.scaleBy(x: 1.0, y: -1.0)
+                context.translateBy(x: 0.0, y: CGFloat(-theMapRect.size.height))
+                context.draw(imageReference!, in: theRect)
+                
+            }
+        }
     }
 
     static let shareInstance = ApiController()
@@ -53,7 +102,7 @@ class ApiController {
                 let basic = result[0]["basic"]
                 let now = result[0]["now"]
                 print("--------\(result)\n-------\(basic)")
-                return Weather(cityName: basic["location"].string ?? "Unknown", temperature: now["tmp"].string ?? "-1000", humidity: now["hum"].string ?? "0", icon: now["cond_txt"].string ?? "e", lat: basic["lat"].double ?? 0,lon: basic["lon"].double ?? 0)
+                return Weather(cityName: basic["location"].string ?? "Unknown", temperature: now["tmp"].string ?? "-1000", humidity: now["hum"].string ?? "0", icon: now["cond_txt"].string ?? "e", lat: Double(basic["lat"].string!) ?? 0,lon: Double(basic["lon"].string!) ?? 0)
             })
     }
     
@@ -125,4 +174,18 @@ public func iconNameToChar(icon: String) -> String {
     default:
         return "E"
     }
+}
+
+fileprivate func imageFromText(text: NSString, font: UIFont) -> UIImage {
+    
+    let size = text.size(withAttributes: [NSAttributedString.Key.font: font])
+    
+    UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+    text.draw(at: CGPoint(x: 0, y:0), withAttributes: [NSAttributedString.Key.font: font])
+    
+    let image = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+    
+    return image ?? UIImage(named: "weather")!
+//    return UIImage(named: "weather")!
 }
