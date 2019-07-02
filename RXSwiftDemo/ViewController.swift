@@ -141,7 +141,7 @@ class ViewController: UIViewController {
             return ApiController.shareInstance.currentWeather(lat: coordinate.latitude, lon: coordinate.longitude)
         }
         
-        let search = Observable.from([geoSearch, textSearch,mapSearch])
+        let search = Observable.from([geoSearch, textSearch, mapSearch])
             .merge()
             .asDriver(onErrorJustReturn: ApiController.Weather.dummy)
         

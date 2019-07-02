@@ -113,7 +113,7 @@ class ApiController {
                 let basic = result[0]["basic"]
                 let now = result[0]["now"]
                 print("--------\(result)\n-------\(basic)")
-                return Weather(cityName: basic["location"].string ?? "Unknown", temperature: now["tmp"].string ?? "-1000", humidity: now["hum"].string ?? "0", icon: now["cond_txt"].string ?? "e", lat: basic["lat"].double ?? 0,lon: basic["lon"].double ?? 0)
+                return Weather(cityName: basic["location"].string ?? "Unknown", temperature: now["tmp"].string ?? "-1000", humidity: now["hum"].string ?? "0", icon: now["cond_txt"].string ?? "e", lat: Double(basic["lat"].string!) ?? 0,lon: basic["lon"].double ?? 0)
             })
     }
 
