@@ -13,7 +13,7 @@ import SwiftyJSON
 import CoreLocation
 import MapKit
 
-class ApiController {
+public class ApiController {
 
     struct Weather {
         let cityName: String
@@ -81,7 +81,7 @@ class ApiController {
     }
 
     static let shareInstance = ApiController()
-    private let apiKey = "3f778bc5604a44c0b851d4b5f3eb5652"
+    let apiKey = "3f778bc5604a44c0b851d4b5f3eb5652"
     let baseURL = URL(string: "https://free-api.heweather.net/s6/weather/")!
 
     init() {
@@ -90,6 +90,11 @@ class ApiController {
         }
     }
 
+    enum ApiError: Error {
+        case cityNotFound
+        case serverFailure
+        case invalidKey
+    }
     //MARK:return current weathrer
 
     func currentWeather(city: String) -> Observable<Weather> {
@@ -102,7 +107,10 @@ class ApiController {
                 let basic = result[0]["basic"]
                 let now = result[0]["now"]
                 print("--------\(result)\n-------\(basic)")
-                return Weather(cityName: basic["location"].string ?? "Unknown", temperature: now["tmp"].string ?? "-1000", humidity: now["hum"].string ?? "0", icon: now["cond_txt"].string ?? "e", lat: Double(basic["lat"].string!) ?? 0,lon: Double(basic["lon"].string!) ?? 0)
+                if result["status"] != "ok" {
+                    throw ApiError.cityNotFound
+                }
+                return Weather(cityName: basic["location"].string ?? "Unknown", temperature: now["tmp"].string ?? "-1000", humidity: now["hum"].string ?? "0", icon: now["cond_txt"].string ?? "e", lat: Double(basic["lat"].string ?? "0") ?? 0,lon: Double(basic["lon"].string ?? "0") ?? 0)
             })
     }
     
@@ -119,26 +127,63 @@ class ApiController {
 
     //net work request
     func buildRequest(method: String = "GET", pathComponent: String, params: [(String, String)]) -> Observable<JSON> {
-        let url = baseURL.appendingPathComponent(pathComponent)
-        var request = URLRequest(url: url)
-        let keyQueryItem = URLQueryItem(name: "key", value: apiKey)
-        let urlComponents = NSURLComponents(url: url, resolvingAgainstBaseURL: true)
-        if method == "GET" {
-            var queryItems = params.map { URLQueryItem(name: $0.0, value: $0.1)}
-            queryItems.append(keyQueryItem)
-            urlComponents?.queryItems = queryItems
-        } else {
-            urlComponents?.queryItems = [keyQueryItem]
-            let jsonData = try! JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
-            request.httpBody = jsonData
+        
+        let request: Observable<URLRequest> = Observable.create { (observer) in
+            let url = self.baseURL.appendingPathComponent(pathComponent)
+            var request = URLRequest(url: url)
+            let keyQueryItem = URLQueryItem(name: "key", value: self.apiKey)
+            let urlComponents = NSURLComponents(url: url, resolvingAgainstBaseURL: true)
+            if method == "GET" {
+                var queryItems = params.map { URLQueryItem(name: $0.0, value: $0.1)}
+                queryItems.append(keyQueryItem)
+                urlComponents?.queryItems = queryItems
+            } else {
+                urlComponents?.queryItems = [keyQueryItem]
+                let jsonData = try! JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
+                request.httpBody = jsonData
+            }
+            request.url = urlComponents?.url
+            request.httpMethod = method
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            observer.onNext(request)
+            observer.onCompleted()
+            return Disposables.create()
         }
-        request.url = urlComponents?.url
-        request.httpMethod = method
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
         let session = URLSession.shared
-        return session.rx.data(request: request).map({
-            try! JSON(data: $0)
+        return request.flatMap({ (request) in
+            return session.rx.response(request: request).map({ (response, data) in
+                if 200 ..< 300 ~= response.statusCode {
+                    return try JSON(data: data)
+                } else if response.statusCode == 401 {
+                    throw ApiError.invalidKey
+                } else if 400 ..< 500 ~= response.statusCode {
+                    throw ApiError.serverFailure
+                } else {
+                    throw ApiError.serverFailure
+                }
+            })
         })
+//        let url = baseURL.appendingPathComponent(pathComponent)
+//        var request = URLRequest(url: url)
+//        let keyQueryItem = URLQueryItem(name: "key", value: apiKey)
+//        let urlComponents = NSURLComponents(url: url, resolvingAgainstBaseURL: true)
+//        if method == "GET" {
+//            var queryItems = params.map { URLQueryItem(name: $0.0, value: $0.1)}
+//            queryItems.append(keyQueryItem)
+//            urlComponents?.queryItems = queryItems
+//        } else {
+//            urlComponents?.queryItems = [keyQueryItem]
+//            let jsonData = try! JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
+//            request.httpBody = jsonData
+//        }
+//        request.url = urlComponents?.url
+//        request.httpMethod = method
+//        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+//        let session = URLSession.shared
+//        return session.rx.data(request: request).map({
+//            try! JSON(data: $0)
+//        })
         
     }
     

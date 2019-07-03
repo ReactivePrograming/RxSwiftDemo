@@ -13,6 +13,10 @@ import RxSwift
 import CoreLocation
 import MapKit
 
+fileprivate let maxAttempts = 4
+
+typealias Weather = ApiController.Weather
+
 class ViewController: UIViewController {
 
     @IBOutlet weak var searchCityName: UITextField!
@@ -29,6 +33,7 @@ class ViewController: UIViewController {
     
     let bag = DisposeBag()
     let locationManager = CLLocationManager()
+    var cache = [String: Weather]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -123,14 +128,41 @@ class ViewController: UIViewController {
 //            print(locations)
 //        }
 //        .disposed(by: bag)
-        
+        let retryHandler: (Observable<Error>) -> Observable<Int> = { e in
+            return e.enumerated().flatMap { (attempt, error) -> Observable<Int> in
+                if attempt >= maxAttempts - 1 {
+                    return Observable.error(error)
+                } else if let casted = error as? ApiController.ApiError, casted == .invalidKey {
+                    return Observable.error(error)
+                }
+                print("== retrying after \(attempt + 1) seconds ==")
+                return Observable<Int>.timer(Double(attempt + 1), scheduler: MainScheduler.instance).take(1)
+            }
+        }
         
         let searchInput = searchCityName.rx.controlEvent(.editingDidEndOnExit).asObservable()
             .map { self.searchCityName.text }
             .filter { ($0 ?? "").characters.count > 0 }
         let textSearch = searchInput.flatMap { text in
             return ApiController.shareInstance.currentWeather(city: text ?? "北京")
-                .catchErrorJustReturn(ApiController.Weather.dummy)
+                .do(onNext: { (data) in
+                    if let text = text {
+                        self.cache[text] = data
+                    }
+                }, onError: { [weak self] e in
+                    guard let strongSelf = self else { return }
+                    DispatchQueue.main.sync {
+                        strongSelf.showError(error: e)
+                    }
+                })
+                .retryWhen(retryHandler)
+                .catchError({ (error) in
+                    if let text = text, let cacheData = self.cache[text] {
+                        return Observable.just(cacheData)
+                    } else {
+                        return Observable.just(ApiController.Weather.empty)
+                    }
+                })
         }
         
         let mapInput = mapView.rx.regionDidChangeAnimated
@@ -212,6 +244,8 @@ class ViewController: UIViewController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
+    
+    
 
     private func setUpUI() {
         Appearence.applyBottomLine(to: searchCityName)
@@ -220,6 +254,21 @@ class ViewController: UIViewController {
         humidityLabel.textColor = UIColor.cream
         weatherLabel.textColor = UIColor.cream
         cityNameLabel.textColor = UIColor.cream
+    }
+    
+    func showError(error e: Error) {
+        if let e = e as? ApiController.ApiError {
+            switch (e) {
+            case .cityNotFound:
+                InfoView.showInfo(viewController: self, message: "City not found")
+            case .serverFailure:
+                InfoView.showInfo(viewController: self, message: "Server Down")
+            case .invalidKey:
+                InfoView.showInfo(viewController: self, message: "key not found")
+            }
+        } else {
+            InfoView.showInfo(viewController: self, message: "An error not found")
+        }
     }
 
 }

@@ -28,15 +28,17 @@ class InfoView: UIView {
         }
         if sharedView == nil {
             sharedView = loadFromNib()
-            sharedView.layer.masksToBounds = false
+            sharedView.layer.masksToBounds = true
             sharedView.layer.shadowColor = UIColor.darkGray.cgColor
             sharedView.layer.shadowOpacity = 1
             sharedView.layer.shadowOffset = CGSize(width: 0, height: 3)
+            sharedView.layer.cornerRadius = 5
+            sharedView.backgroundColor = UIColor.red
         }
         
         sharedView.textLabel.text = message
         if sharedView.superview == nil {
-            let y = displayVC.view.frame.height - sharedView.frame.size.height - 12
+            let y = displayVC.view.safeAreaInsets.top
             sharedView.frame = CGRect(x: 12, y: y, width: displayVC.view.frame.size.width - 24, height: sharedView.frame.size.height)
             sharedView.alpha = 0.0
             
