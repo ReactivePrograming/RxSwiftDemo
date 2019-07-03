@@ -22,6 +22,9 @@
 		57FFDD5C22C1063A00A339DD /* Extension+Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57FFDD5B22C1063A00A339DD /* Extension+Array.swift */; };
 		5C39446022C62DEE003BF494 /* CLLocationManager+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C39445F22C62DEE003BF494 /* CLLocationManager+Rx.swift */; };
 		5C39446A22C9FE24003BF494 /* MKMapView+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C39446922C9FE24003BF494 /* MKMapView+Rx.swift */; };
+		5C6C28BD22CB6C170087C16E /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6C28BC22CB6C170087C16E /* InfoView.swift */; };
+		5C6C28BF22CB6C380087C16E /* InfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C6C28BE22CB6C380087C16E /* InfoView.xib */; };
+		5CF9CC4B22CB47E500CC8E7A /* RxReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF9CC4A22CB47E500CC8E7A /* RxReachability.swift */; };
 		AE0D617EE5FAAD2543F076C2 /* libPods-RXSwiftDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AEE3C8E0DEF03A76058EF91B /* libPods-RXSwiftDemo.a */; };
 /* End PBXBuildFile section */
 
@@ -64,6 +67,9 @@
 		57FFDD5B22C1063A00A339DD /* Extension+Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Array.swift"; sourceTree = "<group>"; };
 		5C39445F22C62DEE003BF494 /* CLLocationManager+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationManager+Rx.swift"; sourceTree = "<group>"; };
 		5C39446922C9FE24003BF494 /* MKMapView+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKMapView+Rx.swift"; sourceTree = "<group>"; };
+		5C6C28BC22CB6C170087C16E /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
+		5C6C28BE22CB6C380087C16E /* InfoView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InfoView.xib; sourceTree = "<group>"; };
+		5CF9CC4A22CB47E500CC8E7A /* RxReachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxReachability.swift; sourceTree = "<group>"; };
 		6253839DFD6EC8A8C92A34AB /* Pods-RXSwiftDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RXSwiftDemo.release.xcconfig"; path = "Target Support Files/Pods-RXSwiftDemo/Pods-RXSwiftDemo.release.xcconfig"; sourceTree = "<group>"; };
 		6BCC757221BC1DA97B190A85 /* Pods-RXSwiftDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RXSwiftDemo.debug.xcconfig"; path = "Target Support Files/Pods-RXSwiftDemo/Pods-RXSwiftDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		AEE3C8E0DEF03A76058EF91B /* libPods-RXSwiftDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RXSwiftDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -174,11 +180,22 @@
 		57FFDD5822B29AF000A339DD /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				5C6C28B722CB63370087C16E /* InfoView */,
 				57FFDD5922B29B0000A339DD /* Colors.swift */,
 				57DD8C5322C4FAA000C16AE6 /* Appearence.swift */,
 				57FFDD5B22C1063A00A339DD /* Extension+Array.swift */,
+				5CF9CC4A22CB47E500CC8E7A /* RxReachability.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		5C6C28B722CB63370087C16E /* InfoView */ = {
+			isa = PBXGroup;
+			children = (
+				5C6C28BC22CB6C170087C16E /* InfoView.swift */,
+				5C6C28BE22CB6C380087C16E /* InfoView.xib */,
+			);
+			path = InfoView;
 			sourceTree = "<group>";
 		};
 		6C62D8540B0E3F6D78E5D1E5 /* Frameworks */ = {
@@ -296,6 +313,7 @@
 			files = (
 				57FFDD3222A80ACD00A339DD /* LaunchScreen.storyboard in Resources */,
 				57FFDD2F22A80ACD00A339DD /* Assets.xcassets in Resources */,
+				5C6C28BF22CB6C380087C16E /* InfoView.xib in Resources */,
 				57FFDD2A22A80ACB00A339DD /* Main.storyboard in Resources */,
 				57DD8C5922C5126200C16AE6 /* weather.ttf in Resources */,
 			);
@@ -348,9 +366,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				57FFDD2722A80ACB00A339DD /* ViewController.swift in Sources */,
+				5C6C28BD22CB6C170087C16E /* InfoView.swift in Sources */,
 				5C39446A22C9FE24003BF494 /* MKMapView+Rx.swift in Sources */,
 				57FFDD5A22B29B0000A339DD /* Colors.swift in Sources */,
 				57DD8C5722C5074300C16AE6 /* ApiController.swift in Sources */,
+				5CF9CC4B22CB47E500CC8E7A /* RxReachability.swift in Sources */,
 				57FFDD2D22A80ACB00A339DD /* RXSwiftDemo.xcdatamodeld in Sources */,
 				57DD8C5422C4FAA000C16AE6 /* Appearence.swift in Sources */,
 				5C39446022C62DEE003BF494 /* CLLocationManager+Rx.swift in Sources */,
