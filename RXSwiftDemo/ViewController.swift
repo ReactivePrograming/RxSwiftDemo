@@ -37,6 +37,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let util = RxScheduler()
         self.mapView.isHidden = true
         self.mapView.showsUserLocation = true
         view.backgroundColor = UIColor.aztec
